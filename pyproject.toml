@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "x-downloader"
+version = "0.2.0"
+description = "Download images & videos from X (Twitter) via cookie auth, with a built-in gallery viewer"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+keywords = ["twitter", "x", "downloader", "images", "gallery", "media"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet",
+    "Topic :: Multimedia :: Graphics",
+]
+dependencies = [
+    "httpx[http2,socks]>=0.27.0",
+    "aiofiles>=23.2.1",
+    "click>=8.1.7",
+    "rich>=13.7.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.urls]
+"Source" = "https://github.com/yourusername/x-downloader"
+"Bug Tracker" = "https://github.com/yourusername/x-downloader/issues"
+"Changelog" = "https://github.com/yourusername/x-downloader/blob/main/CHANGELOG.md"
+
+[project.scripts]
+xdl = "xdl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["xdl*"]

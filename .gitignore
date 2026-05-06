@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Build / distribution
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Project output (never commit downloads or databases)
+downloads/
+*.db
+*.log
+
+# Credentials (never commit)
+.env
+config.json
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
