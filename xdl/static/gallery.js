@@ -824,6 +824,12 @@ function lbToggleFav() {
   _toggleFav(ou, item, null);
   var fav = document.getElementById('lb-fav');
   if (fav) fav.classList.toggle('on', _isFav(ou.uid, item.f));
+  // Sync thumbnail heart in the virtual-scroll cache (if rendered)
+  var cached = _mgVS.cache.get(lbIdx);
+  if (cached) {
+    var h = cached.querySelector('.fav-heart');
+    if (h) h.classList.toggle('on', _isFav(ou.uid, item.f));
+  }
 }
 
 // ── Lightbox zoom / pan ─────────────────────────────────────────────────
