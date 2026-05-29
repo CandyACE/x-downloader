@@ -1346,6 +1346,7 @@ function _renderDetailGrid() {
 document.addEventListener('DOMContentLoaded', function() {
   function _init() {
     _visibleUsers = _buildVisibleUsers('');
+    _updateTopbarMeta();
     _vsInit();
     // Hide "最近" sort button if no user has latest data
     if (!USERS.some(function(u) { return u.latest; })) {
