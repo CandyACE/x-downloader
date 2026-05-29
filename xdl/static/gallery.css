@@ -149,7 +149,7 @@ body{background:#000;color:#e7e9ea;font-family:-apple-system,BlinkMacSystemFont,
 #sel-del-btn:disabled{opacity:.45;cursor:default}
 
 /* ── Download panel ── */
-#dl-divider,#dl-btn{display:none}
+#dl-btn{display:none}
 #dl-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200}
 #dl-panel{display:none;flex-direction:column;position:fixed;top:0;right:0;width:360px;height:100%;background:#16181c;border-left:1px solid #2f3336;z-index:201;overflow:hidden}
 #dl-overlay.open,#dl-panel.open{display:flex}

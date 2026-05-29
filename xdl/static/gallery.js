@@ -1408,7 +1408,6 @@ var _dlEs = null;
 
 function _dlInit() {
   if (!_API_MODE) return;
-  document.getElementById('dl-divider').style.display = '';
   document.getElementById('dl-btn').style.display = '';
   _dlRenderForm();
 }
