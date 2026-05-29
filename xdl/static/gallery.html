@@ -30,6 +30,7 @@ __GALLERY_CSS__
     <button class="ft" id="user-sel-toggle" onclick="toggleUserSelMode()">多选</button>
     <span class="sort-divider" id="dl-divider">|</span>
     <button class="ft" id="dl-btn" onclick="toggleDlPanel()" title="下载/更新">⬇ 更新</button>
+    <button class="ft" id="dl-gallery-refresh-btn" onclick="dlRefreshGallery()" title="刷新画廊" style="display:none">🔄 刷新</button>
   </span>
   <span class="meta" id="topbar-meta">__META_TEXT__</span>
 </div>
@@ -123,6 +124,7 @@ __GALLERY_CSS__
   <div id="dl-actions">
     <button id="dl-start-btn" onclick="dlStart()">▶ 开始</button>
     <span id="dl-status">空闲</span>
+    <button id="dl-panel-refresh-btn" onclick="dlRefreshGallery()" style="display:none;margin-left:auto">🔄 刷新画廊</button>
   </div>
   <div id="dl-log-wrap">
     <div id="dl-log"></div>

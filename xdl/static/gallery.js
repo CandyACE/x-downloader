@@ -1560,14 +1560,24 @@ function _dlAppendLog(text, cls) {
 function _dlSetStatus(running, code) {
   var btn = document.getElementById('dl-start-btn');
   var status = document.getElementById('dl-status');
+  var topbarRefresh = document.getElementById('dl-gallery-refresh-btn');
+  var panelRefresh = document.getElementById('dl-panel-refresh-btn');
   btn.disabled = running;
   if (running) {
     status.textContent = '⏳ 运行中…';
+    if (topbarRefresh) topbarRefresh.style.display = 'none';
+    if (panelRefresh) panelRefresh.style.display = 'none';
   } else if (code === null || code === undefined) {
     status.textContent = '空闲';
   } else if (code === 0) {
     status.textContent = '✅ 完成';
+    if (topbarRefresh) topbarRefresh.style.display = '';
+    if (panelRefresh) panelRefresh.style.display = '';
   } else {
     status.textContent = '❌ 失败 (' + code + ')';
   }
+}
+
+function dlRefreshGallery() {
+  location.reload();
 }
