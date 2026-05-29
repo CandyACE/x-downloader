@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>X Gallery</title>
+<style>
+__GALLERY_CSS__
+</style>
+</head>
+<body>
+
+<div id="page-loading">
+  <div class="pl-spinner"></div>
+  <span class="pl-text" id="pl-text">正在加载…</span>
+</div>
+
+<div class="topbar">
+  <button class="back-btn" id="back-btn" onclick="history.back()">← 返回</button>
+  <h1 id="topbar-title">X Gallery</h1>
+  <input type="search" id="search-input" class="search-box" placeholder="搜索用户…" oninput="onSearch(this.value)">
+  <span id="ust-wrap" style="display:none;align-items:center;gap:6px;margin-left:8px">
+    <span class="sort-divider">排序</span>
+    <button class="st active" id="ust-name" onclick="setUserSort('name')">名称</button>
+    <button class="st" id="ust-count" onclick="setUserSort('count')">数量</button>
+    <button class="st ust-recent" id="ust-recent" onclick="setUserSort('recent')">最近</button>
+    <span class="sort-divider">|</span>
+    <button class="ft fav-nav" id="fav-nav" onclick="showFavorites()">❤️ 收藏夹<span id="fav-count"></span></button>
+    <span class="sort-divider">|</span>
+    <button class="ft" id="user-sel-toggle" onclick="toggleUserSelMode()">多选</button>
+    <span class="sort-divider" id="dl-divider">|</span>
+    <button class="ft" id="dl-btn" onclick="toggleDlPanel()" title="下载/更新">⬇ 更新</button>
+  </span>
+  <span class="meta" id="topbar-meta">__META_TEXT__</span>
+</div>
+
+<div id="view-cards">
+  <div id="vs-host"></div>
+</div>
+
+<div id="view-detail">
+  <div class="detail-header">
+    <div class="detail-name" id="detail-name"></div>
+    <div class="detail-meta" id="detail-meta"></div>
+    <div class="filter-tabs" id="filter-tabs">
+      <button class="ft active" data-f="all" onclick="setFilter('all')">全部</button>
+      <button class="ft" data-f="image" onclick="setFilter('image')">图片</button>
+      <button class="ft" data-f="video" onclick="setFilter('video')">视频</button>
+      <span class="sort-divider">|</span>
+      <button class="st active" data-s="default" onclick="setSort('default')">默认</button>
+      <button class="st" data-s="desc" onclick="setSort('desc')">最新</button>
+      <button class="st" data-s="asc" onclick="setSort('asc')">最早</button>
+      <span class="sort-divider">|</span>
+      <button class="ft" id="sel-toggle" onclick="toggleSelMode()">多选</button>
+      <span class="sort-divider" id="fav-layout-div" style="display:none">|</span>
+      <span id="fav-layout" style="display:none">
+        <button class="lt active" data-fl="flat" onclick="setFavLayout('flat')">平铺</button>
+        <button class="lt" data-fl="grouped" onclick="setFavLayout('grouped')">按用户分组</button>
+      </span>
+    </div>
+  </div>
+  <div class="media-grid" id="media-grid"></div>
+  <div id="fav-groups" style="display:none"></div>
+</div>
+
+<!-- Context menu -->
+<ul id="ctx-menu"></ul>
+
+<!-- Toast (Dynamic Island) -->
+<div id="toast">
+  <div id="toast-box">
+    <div id="toast-card">
+      <div id="toast-card-thumb"></div>
+      <div id="toast-card-body"></div>
+      <div id="toast-card-btns">
+        <button id="toast-cancel-btn">取消</button>
+        <button id="toast-delete-btn">删除</button>
+      </div>
+    </div>
+    <div id="toast-pill">
+      <div id="toast-thumb"></div>
+      <div id="toast-body">
+        <span id="toast-label"></span>
+        <span id="toast-msg"></span>
+      </div>
+      <button id="toast-undo">撤销</button>
+      <div id="toast-track"><div id="toast-bar"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Multi-select action bar -->
+<div id="sel-bar">
+  <span id="sel-count">已选 0 项</span>
+  <button id="sel-del-btn" onclick="deleteSelectedDispatch()" disabled>删除选中</button>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="lbClose()">
+  <button class="lb-btn" id="lb-prev" onclick="event.stopPropagation();lbNav(-1)">&#8249;</button>
+  <img id="lb-media" src="" alt="">
+  <button class="lb-btn" id="lb-next" onclick="event.stopPropagation();lbNav(1)">&#8250;</button>
+  <button id="lb-close" onclick="lbClose()">&#x2715;</button>
+  <button id="lb-fav" onclick="event.stopPropagation();lbToggleFav()" title="收藏">&#9829;</button>
+  <div id="lb-counter"></div>
+  <a id="lb-tweet" href="#" target="_blank" rel="noopener" onclick="event.stopPropagation()">查看推文 ↗</a>
+</div>
+
+<!-- Download panel -->
+<div id="dl-overlay" onclick="toggleDlPanel()"></div>
+<div id="dl-panel">
+  <div id="dl-header">
+    <span id="dl-title">⬇ 下载 / 更新</span>
+    <button id="dl-close" onclick="toggleDlPanel()">✕</button>
+  </div>
+  <div id="dl-tabs">
+    <button class="dl-tab active" data-cmd="user" onclick="dlSelectCmd('user')">用户媒体</button>
+    <button class="dl-tab" data-cmd="tweet" onclick="dlSelectCmd('tweet')">推文</button>
+    <button class="dl-tab" data-cmd="likes" onclick="dlSelectCmd('likes')">喜欢</button>
+    <button class="dl-tab" data-cmd="merge-db" onclick="dlSelectCmd('merge-db')">合并DB</button>
+  </div>
+  <div id="dl-form"></div>
+  <div id="dl-actions">
+    <button id="dl-start-btn" onclick="dlStart()">▶ 开始</button>
+    <span id="dl-status">空闲</span>
+  </div>
+  <div id="dl-log-wrap">
+    <div id="dl-log"></div>
+  </div>
+</div>
+
+<script>
+__CONFIG_JS____GALLERY_JS__
+</script>
+</body>
+</html>
